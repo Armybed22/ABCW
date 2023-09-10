@@ -7,7 +7,7 @@ intents.typing = False
 intents.presences = False
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-TOKEN = 'MTE1MDM4NTYxMjgzOTQ2MTAzNg.GiG4zJ.NfA1jVx0Vsc8n9BAjjfCKY2WUOSEwReAjdljks'
+TOKEN = 'token'
 
 SERVER_ID = '1132324413610672179'
 CHANNEL_ID = '1135941436093763625'
