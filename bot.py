@@ -7,7 +7,7 @@ intents.typing = False
 intents.presences = False
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-TOKEN = 'token'
+TOKEN = 'MTE1MDM4NTYxMjgzOTQ2MTAzNg.GAnmQA.iZFFJAQbKcB_5RS3O4_Yp3xhb6e6cUdEkQYApo'
 
 SERVER_ID = '1132324413610672179'
 CHANNEL_ID = '1135941436093763625'
@@ -49,6 +49,26 @@ async def clear(ctx, limit: int):
         await ctx.channel.purge(limit=limit + 1)
     except ValueError:
         await ctx.send("Пожалуйста, укажите корректное количество сообщений для удаления.")
+@bot.command()
+async def aplfh(ctx, *, code: str):
+    try:
+        with open('aplfh_code.af', 'w') as file:
+            file.write(code)
+        
+        process = subprocess.Popen(
+            f'python aplfh.py -s aplfh_code.af',
+            shell=True,
+            stderr=subprocess.STDOUT,
+            stdout=subprocess.PIPE,
+            encoding='utf-8'
+        )
+        output, _ = process.communicate(timeout=30)
+        
+        os.remove('aplfh_code.af')
+
+        await ctx.send(f'Результат выполнения aplfh кода:\n```\n{output}\n```')
+    except Exception as e:
+        await ctx.send(f'Произошла ошибка: {str(e)}')
 
 
 
