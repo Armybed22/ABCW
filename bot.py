@@ -49,9 +49,12 @@ async def clear(ctx, limit: int):
         await ctx.channel.purge(limit=limit + 1)
     except ValueError:
         await ctx.send("Пожалуйста, укажите корректное количество сообщений для удаления.")
-@bot.command()
+@@bot.command()
 async def aplfh(ctx, *, code: str):
     try:
+        # Удаляем знаки ``` ```
+        code = code.strip('`')
+
         with open('aplfh_code.af', 'w') as file:
             file.write(code)
         
@@ -69,6 +72,7 @@ async def aplfh(ctx, *, code: str):
         await ctx.send(f'Результат выполнения aplfh кода:\n```\n{output}\n```')
     except Exception as e:
         await ctx.send(f'Произошла ошибка: {str(e)}')
+
 
 
 
