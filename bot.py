@@ -1,13 +1,37 @@
 import discord
 import subprocess
 from discord.ext import commands
+import discord
+from discord_slash import SlashCommand, SlashContext
+from discord_slash.utils.manage_components import create_actionrow, create_button
+from discord_slash.model import ButtonStyle
 import asyncio
 import sys
 import re
-intents = discord.Intents.all()
-intents.typing = False
-intents.presences = False
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.default())
+slash = SlashCommand(bot, sync_commands=True)
+
+@slash.slash(
+    name="profile",
+    description="Показать профиль бота",
+)
+async def profile(ctx: SlashContext):
+    invite_link = "https://discord.com/api/oauth2/authorize?client_id=1150385612839461036&permissions=8&scope=bot%20applications.commands"
+    
+    # Создаем кнопку "Ссылка на приглашение"
+    button = create_button(
+        style=ButtonStyle.URL,
+        label="Ссылка на приглашение",
+        url=invite_link
+    )
+    
+    # Создаем строку с кнопкой
+    action_row = create_actionrow(button)
+    
+    # Отправляем сообщение с кнопкой
+    await ctx.send("Нажмите кнопку, чтобы пригласить бота на ваш сервер:", components=[action_row])
+
+
 
 TOKEN = 'MTE1MDM4NTYxMjgzOTQ2MTAzNg.GAnmQA.iZFFJAQbKcB_5RS3O4_Yp3xhb6e6cUdEkQYApo'
 
@@ -28,6 +52,7 @@ def clean_code(text):
 @bot.event
 async def on_ready():
     print(f'Бот {bot.user.name} готов к работе')
+
 
 @bot.command()
 async def execute(ctx, *, full_command):
