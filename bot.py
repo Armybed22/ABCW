@@ -91,25 +91,28 @@ async def clear(ctx, limit: int):
 @bot.command()
 async def aplfh(ctx, *, code: str):
     try:
-        # Удаляем знаки ``` ```
-        code = clean_code(code)
+        if "os" in code:
+            await ctx.send("Эээ тихо")
+        else:
+            # Удаляем знаки ``` ```
+            code = clean_code(code)
+            
+            with open('aplfh_code.af', 'w') as file:
+                file.write(code)
+            
+            process = subprocess.Popen(
+                f'{PYTHON_COMMAND} aplfh.py -s aplfh_code.af',
+                shell=True,
+                stderr=subprocess.STDOUT,
+                stdout=subprocess.PIPE,
+                encoding='utf-8'
+            )
+            output, _ = process.communicate(timeout=30)
+            
+            os.remove('aplfh_code.af')
 
-        with open('aplfh_code.af', 'w') as file:
-            file.write(code)
-        
-        process = subprocess.Popen(
-            f'{PYTHON_COMMAND} aplfh.py -s aplfh_code.af',
-            shell=True,
-            stderr=subprocess.STDOUT,
-            stdout=subprocess.PIPE,
-            encoding='utf-8'
-        )
-        output, _ = process.communicate(timeout=30)
-        
-        os.remove('aplfh_code.af')
-
-        await ctx.send(f'Результат выполнения aplfh кода:\n```\n{output}\n```')
-    except Exception as e:
-        await ctx.send(f'Произошла ошибка: {str(e)}')
+            await ctx.send(f'Результат выполнения aplfh кода:\n```\n{output}\n```')
+        except Exception as e:
+            await ctx.send(f'Произошла ошибка: {str(e)}')
 
 bot.run(TOKEN)
