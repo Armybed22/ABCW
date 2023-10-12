@@ -112,7 +112,7 @@ async def aplfh(ctx, *, code: str):
             os.remove('aplfh_code.af')
 
             await ctx.send(f'Результат выполнения aplfh кода:\n```\n{output}\n```')
-        except Exception as e:
-            await ctx.send(f'Произошла ошибка: {str(e)}')
+    except Exception as e:
+        await ctx.send(f'Произошла ошибка: {str(e)}')
 
 bot.run(TOKEN)
